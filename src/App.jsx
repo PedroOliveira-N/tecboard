@@ -50,30 +50,32 @@ function App() {
       </header>
       <Banner />
       <FormularioDeEvento />
-      {temas.map(function (item) {
-        return (
-          <section key={item.id}>
-            <Tema tema={item} />
-            <CardEvento evento={eventos[0]}/>
-          </section>
-        )
-      })}
+      <section className='container'>
+        {temas.map(function (tema) {
+          if (!eventos.some(function (evento) {
+            return evento.tema.id == tema.id
+          })) {
+            return null
+          }
+          return (
+              <section key={tema.id}>
+                <Tema tema={tema} />
+                <div className="eventos">
+                  {eventos.filter(function(evento) {
+                    return evento.tema.id == tema.id
+                  })
+                  
+                  .map(function(evento, indice) {
 
-      {/* <section>
-        <Tema tema={temas[1]} />
+                  return <CardEvento evento={evento} key={indice}/>
+                  })}
+                </div>
+                
+              </section>
+            )
+          })}
       </section>
-      <section>
-        <Tema tema={temas[2]} />
-      </section>
-      <section>
-        <Tema tema={temas[3]} />
-      </section>
-      <section>
-        <Tema tema={temas[4]} />
-      </section>
-      <section>
-        <Tema tema={temas[5]} />
-      </section> */}
+
     </main>
   )
 }
